@@ -1,4 +1,4 @@
-# 🔁 Sinusoidal Waveform Prediction with PyTorch RNN
+v# 🔁 Sinusoidal Waveform Prediction with PyTorch RNN
 
 This repository provides a PyTorch implementation of a **Recurrent Neural Network (RNN)** designed for **time series prediction**. The project demonstrates how to create a synthetic sinusoidal dataset, build a simple RNN model, train it to learn the patterns in the sequence, and then use it to predict future values.
 
@@ -14,23 +14,12 @@ By training on a sine wave, the model learns to capture the underlying function 
 
 ## ✨ Features
 
-- **Synthetic Dataset Generation**  
-  Creates a sinusoidal waveform for training and testing.
-
-- **Data Visualization**  
-  Includes utilities to visualize the generated dataset and prediction outputs.
-
-- **Custom RNN Architecture**  
-  Implements a simple yet effective RNN with a single recurrent layer and a fully connected output layer.
-
-- **Training Loop**  
-  Trains the model using the Adam optimizer and Mean Squared Error (MSE) loss.
-
-- **Prediction and Evaluation**  
-  Uses the trained model to predict future values based on test sequences.
-
-- **Result Visualization**  
-  Plots original sine wave, test inputs, and predicted outputs.
+* **Synthetic Dataset Generation**: Creates a sinusoidal waveform for training and testing.
+* **Data Visualization**: Includes utilities to visualize the generated dataset and prediction outputs.
+* **Custom RNN Architecture**: Implements a simple yet effective RNN with a single recurrent layer and a fully connected output layer.
+* **Training Loop**: Trains the model using the Adam optimizer and Mean Squared Error (MSE) loss.
+* **Prediction and Evaluation**: Uses the trained model to predict future values based on test sequences.
+* **Result Visualization**: Plots original sine wave, test inputs, and predicted outputs.
 
 ---
 
@@ -38,75 +27,47 @@ By training on a sine wave, the model learns to capture the underlying function 
 
 Before running the code, make sure the following dependencies are installed:
 
-- Python 3.x
-- PyTorch
-- NumPy
-- Matplotlib
+* Python 3.x
+* PyTorch
+* NumPy
+* Matplotlib
 
-You can install them using pip:
+## 🧠 Model Architecture
 
-```bash
-pip install torch numpy matplotlib
-
-
-Model Architecture
 This model is built for sequence-to-one prediction using PyTorch’s nn.RNN module.
 
-🔹 Recurrent Layer
-python
-Kopyala
-Düzenle
+🔹 Recurrent Layer (`nn.RNN`)
+
+This is the core recurrent layer of the model, processing the input sequences:
+
+```python
 nn.RNN(
     input_size=1,
     hidden_size=16,
     num_layers=1,
     batch_first=True
 )
-input_size=1: Each input is a single value (sine amplitude)
+```
+## 📂 Code Structure
 
-hidden_size=16: Size of hidden state vector
+The `rnn.py` file contains the full implementation, organized into several key components:
 
-num_layers=1: A single RNN layer
+* **`generate_data(seq_length, num_samples)`**: This function is responsible for creating the synthetic sinusoidal waveform dataset and visualizing the generated sine sequences.
+* **`RNN` Class**: This is the custom PyTorch class that defines the architecture of the Recurrent Neural Network model.
+* **Hyperparameters**: Key training and model parameters such as `seq_length`, `hidden_size`, and `epochs` are explicitly set for easy modification and experimentation.
+* **Training Loop**: This section manages the entire training process of the RNN model, utilizing `MSELoss` as the criterion and `Adam` as the optimizer.
+* **Test Section**: This part of the script handles the generation of new test sequences and uses the trained model to make predictions on these unseen data points.
+* **Visualization**: After training and testing, this component is responsible for plotting the comparison between the real (actual) and predicted sine wave segments, allowing for visual evaluation of the model's performance.
 
-batch_first=True: Input shape is (batch, sequence, feature)
 
-🔹 Output Layer
-python
-Kopyala
-Düzenle
-nn.Linear(hidden_size, 1)
-Transforms the final hidden state into a single predicted value
-
-🔹 Forward Pass
-python
-Kopyala
-Düzenle
-def forward(self, x):
-    out, _ = self.rnn(x)
-    out = self.fc(out[:, -1, :])  # Use the output at the last time step
-    return out
-📂 Code Structure
-rnn.py: Contains the full implementation
-
-generate_data(seq_length, num_samples): Creates and visualizes sine sequences
-
-RNN: Custom RNN model class
-
-Hyperparameters: Set at the top (e.g., seq_length, hidden_size, epochs)
-
-train_model(): Trains the model with MSELoss and Adam
-
-test_model(): Generates test sequences and makes predictions
-
-plot_results(): Visualizes the comparison of real vs predicted sine waves
-
-🔧 Hyperparameters
+## 🔧 Hyperparameters
 You can adjust the following parameters in rnn.py:
 
-python
-Kopyala
-Düzenle
-seq_length = 20        # Input sequence length
-hidden_size = 16       # Number of hidden units in the RNN
-epochs = 100           # Number of training epochs
-learning_rate = 0.01   # Learning rate for Adam optimizer
+| Parameter     | Value | Description                             |
+| :------------ | :---- | :-------------------------------------- |
+| `seq_length`  | 50    | Input sequence length                   |
+| `hidden_size` | 16    | Number of hidden units in the RNN       |
+| `epochs`      | 20    | Number of training epochs               |
+| `learning_rate` | 0.001 | Learning rate for Adam optimizer        |
+| `batch_size`  | 32    | Number of samples per training batch    |
+
